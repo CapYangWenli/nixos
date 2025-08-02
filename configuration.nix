@@ -56,7 +56,7 @@
     withUWSM = true;       # (Recommended) Use Universal Wayland Session Manager
     xwayland.enable = true;  # Enable X11 support for XWayland apps (optional but useful)
   };
-  # programs.hyprland.package = inputs.hyperland.packages."${pkgs.system}".default;
+  # programs.hyprland.package = inputs.hyprland.packages."${pkgs.system}".default;
 
   # Enable the GNOME Desktop Environment.
   services.displayManager.sddm.enable = true;
@@ -119,6 +119,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
 
+  programs.waybar.package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.waybar-hyprland;
+
   environment.systemPackages = with pkgs; [
     inputs.swww.packages.${pkgs.system}.swww
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
@@ -132,6 +134,7 @@
     vscode
     prismlauncher
     neofetch
+    ripgrep
 
     waybar
     kitty

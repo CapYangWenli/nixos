@@ -17,6 +17,10 @@
       url = "github:LGFae/swww";
 
     };
+    waybar = {
+      url = "github:Alexays/Waybar";
+      # inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs = { self, nixpkgs, ... }@inputs: {

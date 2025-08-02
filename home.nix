@@ -74,6 +74,9 @@
       modules-center = [ "hyprland/window" ];
       modules-right = [
         "tray"
+        "custom/divider"
+        "custom/keymap"
+        "custom/divider"
         "network"
         "custom/divider"
         "pulseaudio"
@@ -104,6 +107,14 @@
         tooltip = false;
         spacing = 10;
       };
+      "custom/keymap" = {
+        "format" = " {}";
+        "exec" = "bash /etc/nixos/scripts/keymap.sh";
+        "interval" = "once";
+        "signal" = 8;
+      };
+
+      
       network = {
         format-wifi = "{essid} ({signalStrength}%) ";
         format-ethernet = "{ipaddr}/{cidr} ";
@@ -223,7 +234,7 @@
         "$mainMod, up, movefocus, u"
         "$mainMod, down, movefocus, d"
 
-        # Switching workspaces with mainMod + number keys
+        # Switching workspaces with mainMod + number keys  
         "$mainMod, 1, workspace, 1"
         "$mainMod, 2, workspace, 2"
         "$mainMod, 3, workspace, 3"
@@ -253,7 +264,12 @@
         "$mainMod SHIFT $CONTROL, right, movewindow, r"
         "$mainMod SHIFT $CONTROL, up, movewindow, u"
         "$mainMod SHIFT $CONTROL, down, movewindow, d"
+        # "$mainMod, space,  exec, pkill -SIGRTMIN+8 waybar"
+        "ALT_L, SHIFT_L,  exec, pkill -SIGRTMIN+8 waybar"
+        "SHIFT, ALT_L,  exec, pkill -SIGRTMIN+8 waybar"
+
       ];
+
 
       bindle = [
             # volume
