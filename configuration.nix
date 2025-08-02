@@ -113,6 +113,12 @@
   # Install firefox.
   programs.firefox.enable = true;
 
+  programs.chromium = {
+    extraOpts = {
+    	"ExtensionManifestV2Availability" = 2;
+    };
+  };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -135,6 +141,7 @@
     prismlauncher
     neofetch
     ripgrep
+    chromium
 
     waybar
     kitty
