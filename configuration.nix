@@ -35,6 +35,8 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
+  i18n.consoleUseXkbConfig = true;
+
 
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "de_DE.UTF-8";
@@ -48,8 +50,6 @@
     LC_TIME = "de_DE.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
 
   programs.hyprland = {
     enable = true;
@@ -73,9 +73,9 @@
   hardware.graphics.enable = true;                 # Enable OpenGL/Mesa for hardware
   hardware.enableAllFirmware = true;
   # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
+  # 
+  services.xserver = {
+    enable = true;
   };
 
   # Enable CUPS to print documents.
