@@ -134,6 +134,7 @@
     helix
     git
     gcc
+    clang
     rustup
     steam
     obsidian
@@ -142,6 +143,9 @@
     neofetch
     ripgrep
     chromium
+    SDL
+    SDL2
+    alsa-lib
 
     waybar
     kitty
@@ -164,6 +168,7 @@
     pkgs.gtk3
     pkgs.glib
     pixman
+    zed-editor
 
   ];
 
