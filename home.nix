@@ -29,6 +29,17 @@
     cursorTheme.name = "Adwaita";
   };
 
+
+  programs.bash = {
+    enable = true;
+    shellAliases = {
+       cdn  = "cd /etc/nixos";
+       cdn-cfg = "cd /etc/nixos/ && hx configuration.nix";
+       cdn-hm = "cd /etc/nixos && hx home.nix";
+       rebuild = "sudo nixos-rebuild switch";
+      };
+   };
+
   programs.git = {
     enable = true;
     userName = "Anushervon Tabarov";
@@ -40,6 +51,10 @@
     enable = true;
     settings = {
       theme = "dark_plus";
+      editor.lsp.display-inlay-hints = true;
+      keys.normal = {
+        "C-s" = ":w";
+      };
     };
     
      };

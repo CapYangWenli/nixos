@@ -16,6 +16,17 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.supportedFilesystems = [ "ntfs" ];
+
+  
+  # fileSystems."/mnt/windows" =
+  #   {
+  #   device = "/dev/nvme1n1p3";  # Replace with your actual device
+  #   fsType = "ntfs-3g";
+  #   options = [  "rw" "uid=1000" ];
+  #   };
+
+
 
 
   security.polkit.enable = true;
@@ -29,6 +40,8 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  services.tailscale.enable = true;
+  services.tailscale.package = inputs.tailscale.packages."${pkgs.system}".tailscale;
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
@@ -51,15 +64,50 @@
   };
 
 
+  powerManagement.cpuFreqGovernor = "perfomance";
   programs.hyprland = {
     enable = true;
     withUWSM = true;       # (Recommended) Use Universal Wayland Session Manager
     xwayland.enable = true;  # Enable X11 support for XWayland apps (optional but useful)
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    # make sure to also set the portal package, so that they are in sync
+    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
   };
   # programs.hyprland.package = inputs.hyprland.packages."${pkgs.system}".default;
 
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 80 443 22 23];
+    allowedUDPPortRanges = [
+      { from = 4000; to = 4007; }
+      { from = 8000; to = 8010; }
+    ];
+};
+
+
   # Enable the GNOME Desktop Environment.
-  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm = {
+    enable = true;
+    autoLogin = {
+      enable = false;
+      user = "anushervont";
+      };
+  };
+
+
+  services.openssh = {
+    enable = true;
+    ports = [ 22 ];
+    settings = {
+      PasswordAuthentication = false;
+      AllowUsers = null; # Allows all users by default. Can be [ "user1" "user2" ]
+      UseDns = true;
+      X11Forwarding = false;
+      PermitRootLogin = "prohibit-password"; # "yes", "without-password", "prohibit-password", "forced-commands-only", "no"
+    };
+  };
+
+    
   programs.nix-ld.enable = true;
 
   services.displayManager.sddm.wayland.enable = true;
@@ -68,10 +116,13 @@
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
+  lib.mkForce.services.speechd.enable = false;
+  
   boot.initrd.kernelModules = [ "amdgpu" ];         # Load AMDGPU driver early (KMS)
   services.xserver.videoDrivers = [ "amdgpu" ];     # Include amdgpu driver & firmware
   hardware.graphics.enable = true;                 # Enable OpenGL/Mesa for hardware
   hardware.enableAllFirmware = true;
+  hardware.graphics.extraPackages = [ pkgs.amdvlk ];
   # Configure keymap in X11
   # 
   services.xserver = {
@@ -127,6 +178,10 @@
 
   programs.waybar.package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.waybar-hyprland;
 
+  fonts.packages = with pkgs; [ 
+    font-awesome
+  ];
+  
   environment.systemPackages = with pkgs; [
     inputs.swww.packages.${pkgs.system}.swww
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
@@ -134,7 +189,12 @@
     helix
     git
     gcc
-    clang
+    unzip
+    btop
+    gparted
+    gzip
+    unrar
+    # clang
     rustup
     steam
     obsidian
@@ -149,6 +209,7 @@
 
     waybar
     kitty
+    clang
     dunst
     libnotify
     swww
@@ -157,7 +218,7 @@
     wl-clipboard
     kdePackages.dolphin
     kdePackages.polkit-kde-agent-1
-    font-awesome
+    # font-awesome
 
     nix-index
     lutris

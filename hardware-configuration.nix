@@ -23,6 +23,12 @@
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
+  # fileSystems."/mnt/windows" =
+  #   {
+  #   device = "/dev/nvme1n1p3";  # Replace with your actual device
+  #   fsType = "ntfs-3g";
+  #   options = [ "uid=1000" "gid=100" "umask=0022" "windows_names" ];
+  #   };
 
   swapDevices = [ ];
 

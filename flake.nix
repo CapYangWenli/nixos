@@ -9,9 +9,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # hyperland = {
-    #   url = "github:hyprwm/Hyprland";
-    # };
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+    };
 
     swww = {
       url = "github:LGFae/swww";
@@ -21,6 +21,9 @@
       url = "github:Alexays/Waybar";
       # inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+
+    tailscale.url = "github:tailscale/tailscale";
   };
 
   outputs = { self, nixpkgs, ... }@inputs: {
